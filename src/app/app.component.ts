@@ -115,8 +115,6 @@ export class AppComponent implements OnInit {
 
      this.constDataView.nome.viewValue = this.formData.value.dados.nome
 
-     console.log(this.formData)
-
   }
 
   submitFormLayout() {
