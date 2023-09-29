@@ -1,63 +1,66 @@
 <header>
   <div>
-    <img src="../assets/icons8-parte-traseira-de-cartão-de-banco-50.png" alt="">
+    <img src="../assets/icon.png" alt="">
     <h1>Business Card!</h1>
   </div>
 </header>
 
 <main>
-  <form #form="ngForm" (ngSubmit)="submitForm(form)" [formGroup]="formData">
+  <form #form="ngForm" (ngSubmit)="submitFormData()" [formGroup]="formData">
     <mat-card>
-      <mat-card-header>Dados pessoais</mat-card-header>
+      <mat-card-header>
+        Dados pessoais
+        <p>* Preencha todos os campos para pode atualizar as informações do cartão!</p>
+      </mat-card-header>
   
       <mat-card-content formGroupName="dados">
         <mat-form-field class="example-full-width capitalize" appearance="outline">
           <mat-label>Nome</mat-label>
-          <input matInput formControlName="nome" placeholder="Digite o seu nome" value="João Lopes">
+          <input matInput formControlName="nome" placeholder="Digite o seu nome" value="">
         </mat-form-field>
   
         <div class="grid-template">
           <mat-form-field class="example-full-width" appearance="outline">
             <mat-label>Idade</mat-label>
-            <input matInput formControlName="idade" placeholder="Digite a sua idade" value="20" maxlength="3">
+            <input matInput formControlName="idade" placeholder="Digite a sua idade" value="" maxlength="3">
           </mat-form-field>
     
           <mat-form-field class="example-full-width" appearance="outline">
             <mat-label>Telefone</mat-label>
-            <input matInput formControlName="telefone" placeholder="Digite o seu telefone" value="980319583">
+            <input matInput formControlName="telefone" mask="(00) 0000-0000||(00) 0 0000-0000" placeholder="Digite o seu telefone" value="">
           </mat-form-field>
         </div>
   
         <mat-form-field class="example-full-width" appearance="outline">
           <mat-label>Email</mat-label>
-          <input matInput formControlName="email" placeholder="Digite o seu email" value="joaovlopesmartins@gmail.com">
+          <input matInput formControlName="email" placeholder="Digite o seu email" value="">
         </mat-form-field>
         
       </mat-card-content>
   
-      <mat-card-header>Endereco</mat-card-header>
+      <mat-card-header>Endereço</mat-card-header>
   
       <mat-card-content formGroupName="endereco">
         <mat-form-field class="example-full-width capitalize" appearance="outline">
-          <mat-label>Endereco</mat-label>
-          <input matInput formControlName="endereco" placeholder="Digite o seu endereco" value="Rua 7004">
+          <mat-label>Endereço</mat-label>
+          <input matInput formControlName="endereco" placeholder="Digite o seu endereço" value="">
         </mat-form-field>
     
         <div class="grid-template">
           <mat-form-field class="example-full-width" appearance="outline">
-            <mat-label>Numero</mat-label>
-            <input matInput formControlName="numeroEndereco" placeholder="Digite o numero do seu endereco" value="90">
+            <mat-label>Número</mat-label>
+            <input matInput formControlName="numeroEndereco" placeholder="Digite o número do seu endereco" value="">
           </mat-form-field>
       
           <mat-form-field class="example-full-width capitalize" appearance="outline">
             <mat-label>Bairro</mat-label>
-            <input matInput formControlName="bairro" placeholder="Digite o seu bairro" value="Restinga">
+            <input matInput formControlName="bairro" placeholder="Digite o seu bairro" value="">
           </mat-form-field>
         </div>
     
         <mat-form-field class="example-full-width capitalize" appearance="outline">
           <mat-label>Cidade</mat-label>
-          <input matInput formControlName="cidade" placeholder="Digite a sua cidade" value="Porto Alegre">
+          <input matInput formControlName="cidade" placeholder="Digite a sua cidade" value="">
         </mat-form-field>
   
         <button mat-raised-button [disabled]="!form.valid" type="submit" color="primary">Atualizar informacões</button>
@@ -67,16 +70,16 @@
 
   </form>
 
-  <form #formColors="ngForm" (ngSubmit)="submitForm(formColors)" [formGroup]="formLayout">
+  <form #formColors="ngForm" (ngSubmit)="submitFormLayout()" [formGroup]="formLayout">
     <mat-card>
       <mat-card-content formGroupName="layoutCard">
-        <div id="futureCard" class="futureCard">
-          <div id="iconAndName" class="iconAndName">
+        <div id="changeFutureCard" class="futureCard">
+          <div id="changeIconAndName" class="iconAndName">
             <span id="changeIconColor" class="material-symbols-outlined">
               {{ formLayout.value.layoutCard.styleIcon }}
             </span>
 
-            <p class="capitalize" id="changeColorFontName">{{formData.value.dados.nome}}</p>
+            <p class="capitalize" id="changeColorFontName">{{constDataView.nome.viewValue}}</p>
           </div>
 
           <div class="allInformation">
@@ -84,37 +87,42 @@
               <span class="material-symbols-outlined changeIconDataColor">
                 calendar_month
               </span>
-              {{formData.value.dados.idade}}
-              {{ formData.value.dados.idade ? 'anos' : ''}} 
+              {{ constDataView.idade.viewValue !== 0 ? constDataView.idade.viewValue : '' }}
+              {{ constDataView.idade.viewValue ? 'anos' : ''}} 
             </p>
-            <p class="changeTextDataColor">
+
+            <p class="changeTextDataColor" mask="(00) 0000-0000||(00) 0 0000-0000">
               <span class="material-symbols-outlined changeIconDataColor">
                 call
               </span>
-              {{formData.value.dados.telefone}}
+              {{constDataView.telefone.viewValue !== 0 ? constDataView.telefone.viewValue : ''}}
             </p>
+
             <p class="changeTextDataColor">
               <span class="material-symbols-outlined changeIconDataColor">
                 alternate_email
               </span>
-              {{formData.value.dados.email}}
+              {{ constDataView.email.viewValue }}
             </p>
+
             <p class="changeTextDataColor capitalize">
               <span class="material-symbols-outlined changeIconDataColor">
                 house
               </span>
-              {{formData.value.endereco.endereco}}
-              {{ formData.value.endereco.endereco && formData.value.endereco.numeroEndereco ? ',' : ''}} 
-              {{formData.value.endereco.numeroEndereco}}
+              {{ constDataView.endereco.viewValue }}
+              {{ constDataView.endereco.viewValue && constDataView.numeroEndereco.viewValue ? ',' : ''}} 
+              {{ constDataView.numeroEndereco.viewValue !== 0 ? constDataView.numeroEndereco.viewValue : ''}}
             </p>
+
             <p class="changeTextDataColor capitalize">
               <span class="material-symbols-outlined changeIconDataColor">
                 distance
               </span>
-              {{formData.value.endereco.cidade}}
-              {{ formData.value.endereco.cidade && formData.value.endereco.bairro ? ',' : ''}} 
-              {{formData.value.endereco.bairro}}
+              {{ constDataView.cidade.viewValue }}
+              {{ constDataView.cidade.viewValue && constDataView.bairro.viewValue ? ',' : ''}} 
+              {{ constDataView.bairro.viewValue }}
             </p>
+
           </div>
         </div>
   
@@ -133,11 +141,11 @@
             </mat-form-field>
           </div>
 
-          <mat-card-header>Cor dos icones e dos dados</mat-card-header>
+          <mat-card-header>Cor dos ícones e dos dados</mat-card-header>
 
           <div class="div-template-coluns">
             <mat-form-field class="example-full-width capitalize" appearance="outline">
-              <mat-label>Cor dos icones</mat-label>
+              <mat-label>Cor dos ícones</mat-label>
               <input matInput formControlName="iconDataColor" type="color" placeholder="Digite o seu nome" value="">
             </mat-form-field>
       
@@ -153,8 +161,8 @@
           <div class="div-template-coluns">
             <mat-form-field class="mat-input" appearance="outline">
               <mat-label>Estilo da Fonte</mat-label>
-              <mat-select formControlName="styleFontName" name="fontStyle">
-                <mat-option *ngFor="let style of fontStyle" [value]="style.value">
+              <mat-select formControlName="styleFontName" name="constFontStyle">
+                <mat-option *ngFor="let style of constFontStyle" [value]="style.value">
                   {{style.viewValue}}
                 </mat-option>
               </mat-select>
@@ -167,27 +175,27 @@
             </mat-form-field>
           </div>
 
-          <mat-card-header>Estilo e cor do icone</mat-card-header>
+          <mat-card-header>Estilo e cor do ícone</mat-card-header>
 
           <div class="div-template-coluns">
             <mat-form-field class="mat-input" appearance="outline">
-              <mat-label>Estilo do Icone</mat-label>
-              <mat-select formControlName="styleIcon" name="iconStyle">
-                <mat-option *ngFor="let style of iconStyle" [value]="style.value">
+              <mat-label>Estilo do ícone</mat-label>
+              <mat-select formControlName="styleIcon" name="constIconStyle">
+                <mat-option *ngFor="let style of constIconStyle" [value]="style.value">
                   {{style.viewValue}}
                 </mat-option>
               </mat-select>
             </mat-form-field>
       
             <mat-form-field class="example-full-width capitalize" appearance="outline">
-              <mat-label>Cor do icone</mat-label>
+              <mat-label>Cor do ícone</mat-label>
               <input matInput formControlName="colorIcon" type="color" placeholder="Digite o seu nome" value="">
             </mat-form-field>
           </div>
 
         </div>
   
-        <button mat-raised-button (click)="changeColor()" color="primary">Atualizar layout</button>
+        <button mat-raised-button type="submit" color="primary">Atualizar estilos</button>
       </mat-card-content>
     </mat-card>
   </form>

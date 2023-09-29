@@ -11,6 +11,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
+import { NgxMaskDirective, NgxMaskPipe, provideNgxMask } from 'ngx-mask';
 
 @NgModule({
   declarations: [
@@ -26,8 +27,12 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     MatSelectModule,
     FormsModule,
     ReactiveFormsModule,
+    NgxMaskDirective,
+    NgxMaskPipe
   ],
-  providers: [],
+  providers: [
+    provideNgxMask({dropSpecialCharacters: false})
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

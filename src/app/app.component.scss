@@ -32,6 +32,14 @@ main {
     
             &-header {
                 margin-bottom: 2rem;
+                display: flex;
+                flex-direction: column;
+
+                p {
+                    font-size: 0.7rem;
+                    margin-top: 0.5rem;
+                    color: #919191;
+                }
             }
     
             &-content {
@@ -58,6 +66,8 @@ main {
     
             .futureCard {
                 width: 100%;
+                max-width: 49.5rem;
+                align-self: center;
                 height: 17rem;
                 display: flex;
                 background-color: #363636;
@@ -94,6 +104,7 @@ main {
                     p {
                         display: flex;
                         align-items: center;
+                        word-wrap: break-word;
 
                         span {
                             margin-right: 10px;
@@ -114,6 +125,36 @@ main {
 
             .changeTextDataColor, .changeIconDataColor {
                 color: #ffffffff;
+            }
+        }
+    }
+}
+
+
+@media (max-width: 2000px) {
+    main {
+        max-width: 90%;
+    }
+}
+
+@media (max-width: 1500px) {
+    main {
+        max-width: 100%;
+        padding: 2rem 2rem 0;
+    }
+}
+
+@media (max-width: 1350px) {
+    main {
+        flex-direction: column;
+
+        form {
+    
+            mat-card {
+        
+                &-header {
+                    justify-content: center;
+                }
             }
         }
     }

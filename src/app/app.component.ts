@@ -1,16 +1,10 @@
 import { style } from '@angular/animations';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-
-interface fontStyleProps {
-  value: string;
-  viewValue: string;
-}
-
-interface iconStyleProps {
-  value: string;
-  viewValue: string;
-}
+import { styleFieldsToChange } from '../consts/styleFieldsChange'
+import { fontStyle } from '../consts/fontStyle'
+import { iconStyle } from 'src/consts/iconStyle';
+import { dataView } from 'src/consts/dataView';
 
 @Component({
   selector: 'app-root',
@@ -24,70 +18,77 @@ export class AppComponent implements OnInit {
   formData: FormGroup;
   formLayout: FormGroup;
 
+  constStyleFieldsChange = styleFieldsToChange;
+
+  constFontStyle = fontStyle;
   chosenFontStyle: string = 'Roboto';
 
-  fontStyle: fontStyleProps[] = [
-    {value: "'Roboto', sans-serif", viewValue: 'Roboto'},
-    {value: "'Bebas Neue', sans-serif", viewValue: 'Bebas Neue'},
-    {value: "'Gruppo', sans-serif", viewValue: 'Gruppo'},
-    {value: "'Lobster', cursive", viewValue: 'Lobster'},
-    {value: "'Vast Shadow', serif", viewValue: 'Vast Shadow'},
-    {value: "'Londrina Shadow', cursive", viewValue: 'Londrina'},
-  ];
-
+  constIconStyle = iconStyle;
   chosenIconStyle: string = 'account_circle';
 
-  iconStyle: iconStyleProps[] = [
-    {value: "account_circle", viewValue: 'Icone de Usuario'},
-    {value: "star", viewValue: 'Estrela'},
-    {value: "directory_sync", viewValue: 'Reciclar'},
-    {value: "rocket_launch", viewValue: 'Foguete'},
-    {value: "forest", viewValue: 'Arvores'},
-    {value: "camera", viewValue: 'Camera'},
-    {value: "music_note", viewValue: 'Nota de musica'},
-  ];
+  constDataView = dataView
 
-  constructor(private formBuilder: FormBuilder) {
-    
-  }
+  constructor(private formBuilder: FormBuilder) {}
 
   ngOnInit() {
-    // this.formulario = new FormGroup({
-    //   nome: new FormControl(null),
-    //   email: new FormControl(null),
-    // })
 
     this.formData = this.formBuilder.group({
       dados: this.formBuilder.group({
-        nome: [null, [Validators.required, Validators.maxLength(25)]],
-        idade: [null, [Validators.required, Validators.maxLength(3)]],
-        telefone: [null, [Validators.required, Validators.maxLength(9), Validators.minLength(8)]],
-        email: [null, [Validators.required, Validators.email]],
+        nome: [
+          null, [
+            Validators.required, 
+            Validators.maxLength(25)
+          ]
+        ],
+        idade: [
+          null, [
+            Validators.required, 
+            Validators.maxLength(3),
+            Validators.min(1)
+          ]
+        ],
+        telefone: [
+          null, [
+            Validators.required, 
+            Validators.maxLength(16), 
+            Validators.minLength(8)
+          ]
+        ],
+        email: [
+          null, [
+            Validators.required, 
+            Validators.email
+          ]
+        ],
       }),
       endereco: this.formBuilder.group({
-        endereco: [null, [Validators.required]],
-        numeroEndereco: [null, [Validators.required, Validators.maxLength(8)]],
-        bairro: [null, [Validators.required, Validators.maxLength(25)]],
-        cidade: [null, [Validators.required, Validators.maxLength(25)]]
+        endereco: [
+          null, [
+            Validators.required
+          ]
+        ],
+        numeroEndereco: [null, 
+          [
+            Validators.required, 
+            Validators.maxLength(8),
+            Validators.min(0)
+          ]
+        ],
+        bairro: [
+          null, [
+            Validators.required, 
+            Validators.maxLength(25)
+          ]
+        ],
+        cidade: [
+          null, [
+            Validators.required, 
+            Validators.maxLength(25)
+          ]
+        ]
       }),
       
     })
-
-    // this.formData = this.formBuilder.group({
-    //   dados: this.formBuilder.group({
-    //     nome: ['joão lopes', [Validators.required, Validators.maxLength(25)]],
-    //     idade: [20, [Validators.required, Validators.maxLength(3)]],
-    //     telefone: [980319583, [Validators.required, Validators.maxLength(9), Validators.minLength(8)]],
-    //     email: ['joaovlopesmartins@gmail.com', [Validators.required, Validators.email]],
-    //   }),
-    //   endereco: this.formBuilder.group({
-    //     endereco: ['rua sete mil e quatro', [Validators.required]],
-    //     numeroEndereco: [90, [Validators.required, Validators.maxLength(8)]],
-    //     bairro: ['restinga', [Validators.required, Validators.maxLength(25)]],
-    //     cidade: ['porto alegre', [Validators.required, Validators.maxLength(25)]]
-    //   }),
-      
-    // })
 
     this.formLayout = this.formBuilder.group({
       layoutCard: this.formBuilder.group({
@@ -105,46 +106,44 @@ export class AppComponent implements OnInit {
 
   }
 
-  submitForm(form: any) {
+  submitFormData() {
     event?.preventDefault();
-    console.log('formulario enviado', this.formData);
+
+    Object.values(this.constDataView).forEach(data => {
+      data.viewValue = this.formData.value[data.form][data.value]
+    })
+
+     this.constDataView.nome.viewValue = this.formData.value.dados.nome
+
+     console.log(this.formData)
+
   }
 
-  changeColor() {
-    let card = document.getElementById('futureCard')
+  submitFormLayout() {
+    event?.preventDefault();
 
-    card.style.backgroundColor = this.formLayout.value.layoutCard.background;
+    this.constStyleFieldsChange.forEach(field => {
 
-    let divIconAndName = document.getElementById('iconAndName')
+      let fieldvalue
 
-    divIconAndName.style.backgroundColor = this.formLayout.value.layoutCard.corPrincipal;
+      field.changeAttributes.forEach(attributes => {
+        switch (field.type) {
 
-    // -----------------------------------------------------------------
+          case 'id':
+            fieldvalue = document.getElementById(field.name)
+            fieldvalue.style[attributes.attribute] = this.formLayout.value.layoutCard[attributes.origin]
+            break;
+          
+          case 'class': 
+            fieldvalue = document.getElementsByClassName(field.name)
+            for (let i = 0; i < fieldvalue.length; i++) {
+                fieldvalue[i].style[attributes.attribute] = this.formLayout.value.layoutCard[attributes.origin];
+              }
+            break;
+        }
+      })
 
-    let iconDataColor: any = document.getElementsByClassName('changeIconDataColor')
-
-    for (let i = 0; i < iconDataColor.length; i++) {
-      iconDataColor[i].style.color = this.formLayout.value.layoutCard.iconDataColor;
-    }
-
-    let textDataColor: any = document.getElementsByClassName('changeTextDataColor')
-
-    for (let i = 0; i < textDataColor.length; i++) {
-      textDataColor[i].style.color = this.formLayout.value.layoutCard.textDataColor;
-    }
-
-    // -----------------------------------------------------------------
-
-    let FontName = document.getElementById('changeColorFontName')
-
-    FontName.style.color = this.formLayout.value.layoutCard.colorFontName;
-    FontName.style.fontFamily = this.formLayout.value.layoutCard.styleFontName;
-
-    // -----------------------------------------------------------------
-
-    let colorIcon = document.getElementById('changeIconColor')
-
-    colorIcon.style.color = this.formLayout.value.layoutCard.colorIcon;
+    })
 
   }
 }
