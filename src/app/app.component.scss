@@ -2,11 +2,10 @@
 
 header {
     height: 6rem;
-    background-color: $primary-color;
+    background: linear-gradient(20deg, $primary-color, $black);
+    color: $white;
     display: flex;
     justify-content: center;
-    border-bottom: 2px dotted $black;
-    border-top: 2px dotted $black;
 
     div {
         display: flex;
@@ -70,7 +69,7 @@ main {
                 align-self: center;
                 height: 17rem;
                 display: flex;
-                background-color: #363636;
+                background-color: #d6d6d6;
                 margin-bottom: 2rem;
 
                 .iconAndName {
@@ -81,7 +80,7 @@ main {
                     flex-direction: column;
                     justify-content: center;
                     text-align: center;
-                    background-color: #00b764;
+                    background-color: $primary-color;
                     color: #ffffff;
 
                     span {
@@ -124,7 +123,7 @@ main {
             }
 
             .changeTextDataColor, .changeIconDataColor {
-                color: #ffffffff;
+                color: #005470;
             }
         }
     }

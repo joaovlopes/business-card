@@ -92,10 +92,10 @@ export class AppComponent implements OnInit {
 
     this.formLayout = this.formBuilder.group({
       layoutCard: this.formBuilder.group({
-        corPrincipal: ['#00b764'],
-        background: ['#363636'],
-        iconDataColor: ['#ffffff'],
-        textDataColor: ['#ffffff'],
+        corPrincipal: ['#005470'],
+        background: ['#d6d6d6'],
+        iconDataColor: ['#005470'],
+        textDataColor: ['#005470'],
         styleFontName: ["'Roboto', sans-serif"],
         colorFontName: ['#ffffff'],
         styleIcon: ['account_circle'],
